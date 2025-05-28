@@ -1,0 +1,83 @@
+{
+	"manifestVersion": 1,
+	"id": "eg-test-ado-stream",
+	"name": "TestVariables",
+	"version": "0.1.2",
+	"publisher": "Evergrowth",
+	"targets": [
+		{
+			"id": "Microsoft.VisualStudio.Services"
+		}
+	],
+	"tags": [
+		"build",
+		"extension",
+        "testing"
+	],
+	"description": "Testing project to determine how Azure Devops does its thing...",
+	"icons": {
+		"default": "icons/128x128.png",
+		"small": "icons/32x32.png",
+		"large": "icons/512x512.png"
+	},
+		"categories": [
+		"Azure Pipelines"
+	],
+	"content": {
+		"details": {
+			"path": "README.md"
+		},
+		"license": {
+			"path": "LICENSE"
+		},
+		"privacy": {
+			"path": "PRIVACY.md"
+		}	
+	},
+	"links": {
+		"home": {
+			"uri": "http://evergrowth.ca"
+		},
+		"repository": {
+			"uri": "https://github.com/crazycga/TestingADO"
+		},
+		"issues": {
+			"uri": "https://github.com/crazycga/TestingADO/issues"
+		},
+		"support": {
+			"uri": "https://github.com/crazycga/TestingADO/issues"
+		},
+		"privacypolicy": {
+			"uri": "https://raw.githubusercontent.com/crazycga/TestingADO/main/test-extension-ado/PRIVACY.md"
+		}
+	},
+	"repository": {
+		"type": "git",
+		"uri": "https://github.com/crazycga/TestingADO"
+	},
+	"branding": {
+		"color": "#518c53",
+		"theme": "dark"
+	},
+	"galleryflags": [
+		"Preview",
+		"Private"
+	],
+	"files": [
+		{
+			"path": "get-incoming-variables"
+		}
+	],
+	"contributions": [
+		{
+			"id": "Get-VariablesTask",
+			"type": "ms.vss-distributed-task.task",
+			"targets": [
+				"ms.vss-distributed-task.tasks"
+			],
+			"properties": {
+				"name": "get-incoming-variables"
+			}
+		}
+	]
+}

@@ -1,0 +1,37 @@
+{
+  "id": "7b36bcce-efc5-4c36-bcb1-d5fa484ba293",
+  "name": "EGTestingADO-dev",
+  "friendlyName": "Test Incoming Variables",
+  "description": "Tests how the system responds to variables in different ways.",
+  "helpMarkDown": "We are beyond help here.",
+  "category": "Build",
+  "author": "Evergrowth Consulting",
+  "version": {
+    "Major": 0,
+    "Minor": 1,
+    "Patch": 2
+  },
+  "instanceNameFormat": "Test Variables",
+  "inputs": [
+    {
+        "name": "StringVar",
+        "type": "string",
+        "label": "String variable testing",
+        "defaultValue": "",
+        "required": true,
+        "helpMarkDown": "A string for variable testing"
+    },
+    {
+      "name": "BoolVar",
+      "type": "boolean",
+      "label": "Boolean variable testing",
+      "required": true,
+      "helpMarkDown": "A boolean for variable testing"
+    }
+  ],
+  "execution": {
+    "PowerShell3": {
+      "target": "collect-variables.ps1"
+    }
+  }
+}
