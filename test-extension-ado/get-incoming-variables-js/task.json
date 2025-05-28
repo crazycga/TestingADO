@@ -1,8 +1,8 @@
 {
-  "id": "7b36bcce-efc5-4c36-bcb1-d5fa484ba293",
-  "name": "EGTestingADO-dev",
-  "friendlyName": "Test Incoming Variables",
-  "description": "Tests how the system responds to variables in different ways.",
+  "id": "b85c55ba-3e91-4a8e-a05f-1d010cae0ad7",
+  "name": "EGTestingADOJS-dev",
+  "friendlyName": "Test using a JS bootstrapper",
+  "description": "Tests how the system responds to variables in different ways.  This one uses a bootstrap.js to parse and pass to powershell",
   "helpMarkDown": "We are beyond help here.",
   "category": "Build",
   "author": "Evergrowth Consulting",
@@ -30,8 +30,11 @@
     }
   ],
   "execution": {
-    "PowerShell3": {
-      "target": "collect-variables.ps1"
+    "Node16": {
+      "target": "collect-variables.js"
+    },
+    "Node20_1": {
+      "target": "collect-variables.js"
     }
   }
 }

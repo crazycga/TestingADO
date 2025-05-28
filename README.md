@@ -2,7 +2,7 @@
 
 Testing Azure Devops pipeline extension capabilities
 
-## Agent Oddities
+## Agent Oddities - PowerShell
 
 Microsoft Hosted Agents require the presences of the `VstsTaskSdk` for Powershell to be present - or at the very least, the _appearance_ of that module.  To get around this, two dummy files must be placed in `ps_modules\VstsTaskSdk`, one for `VstsTaskSdk.psd1` and one for `VstsTaskSdk.psm1`.  The following stubs appear to work (for simple scenarios, at least:)
 
@@ -31,7 +31,7 @@ function Invoke-VstsTaskScript {
 }
 ```
 
-## Variable Passing
+### Variable Passing
 
 * variables are indeed passed in using `$env` variables
 * variables are prepended with `INPUT_` and the variable name
@@ -49,10 +49,55 @@ Example:
 
 This was taken from an enumeration of the environment variables at run-time in a pipeline.
 
-## Dumping Environment Variables
+### Dumping Environment Variables
 
 Helpful script:
 
 ```powershell
 Get-ChildItem Env: | Where-Object { $_.Name -like "INPUT_*" } | Sort-Object Name | Format-Table -AutoSize Name, Value
+```
+
+## Agent Oddities - Node.js Wrappers for Powershell
+
+As an alternative, instead of wrapping Powershell in Powershell, using Node.js (which Azure Devops thinks is a first-class citizen) as the wrapper.  A couple of problems exist with this style, but overall it can be made work.
+
+### Variable Passing
+
+Noticed during testing:
+* passing of `boolean` variables in Powershell - yeah, it's not happening; best alternative: pass text and parse it yourself.  (The reason is because Node.js cannot pass an actual $true as a value to the boolean in Powershell.)
+* in fact, Node.js can only pass text via spawn() (which is what I am using) because every argument to a spawned process is a string.
+* additionally, it would appear that ALL environmental variables are indeed strings
+
+**This implies that if you use the Node.js bootstrappers, you _must_ roll your own variable interpreters.**
+
+### Sample Bootstrapper
+
+```js
+const { spawn } = require("child_process");
+const path = require("path");
+const env = { ...process.env };
+
+const psPath = process.platform === "win32"
+  ? "C:\\Program Files\\PowerShell\\7\\pwsh.exe"
+  : "pwsh";
+
+const scriptPath = path.join(__dirname, "collect-variables.ps1");
+
+const stringVar = process.env.INPUT_STRINGVAR;
+const boolVar = process.env['INPUT_BOOLVAR']?.toLowerCase() === 'true';
+
+const args = [
+  "-NoProfile",
+  "-ExecutionPolicy", "Bypass",
+  "-File", scriptPath,
+  "-StringVar", stringVar || 'tweeter',
+  "-BoolVar", boolVar ? 'true' : 'false'
+];
+
+const child = spawn(psPath, args, {
+  stdio: "inherit",
+  env: process.env
+});
+
+child.on("exit", process.exit);
 ```

@@ -2,7 +2,7 @@
 	"manifestVersion": 1,
 	"id": "eg-test-ado-stream",
 	"name": "TestVariables",
-	"version": "0.1.2",
+	"version": "0.1.4",
 	"publisher": "Evergrowth",
 	"targets": [
 		{
@@ -66,6 +66,9 @@
 	"files": [
 		{
 			"path": "get-incoming-variables"
+		},
+		{
+			"path": "get-incoming-variables-js"
 		}
 	],
 	"contributions": [
@@ -78,6 +81,16 @@
 			"properties": {
 				"name": "get-incoming-variables"
 			}
-		}
+		},
+		{
+			"id": "Get-VariablesJSTask",
+			"type": "ms.vss-distributed-task.task",
+			"targets": [
+				"ms.vss-distributed-task.tasks"
+			],
+			"properties": {
+				"name": "get-incoming-variables-js"
+			}
+		}		
 	]
 }
